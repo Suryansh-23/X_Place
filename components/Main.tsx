@@ -12,7 +12,7 @@ const Home = () => {
   );
 
   useEffect(() => {
-    const socket = io(`:${PORT + 1}`, {
+    const socket = io(`localhost:${PORT + 1}`, {
       path: "/api/canvasSocket",
       addTrailingSlash: false,
     });
@@ -20,16 +20,16 @@ const Home = () => {
     socket.on("connect", () => {
       console.log("Connected to socket server", socket);
 
-      //   for (let i = 0; i < 10; i++) {
-      //     for (let j = 0; j < 10; j++) {
-      //       console.log("i", i, "j", j);
-      //       socket.emit("colorChange", {
-      //         rowIndex: i,
-      //         colIndex: j,
-      //         newColor: "#ff0000",
-      //       });
-      //     }
-      //   }
+        // for (let i = 0; i < 10; i++) {
+        //   for (let j = 0; j < 10; j++) {
+        //     console.log("i", i, "j", j);
+        //     socket.emit("colorChange", {
+        //       rowIndex: i,
+        //       colIndex: j,
+        //       newColor: "#ff0000",
+        //     });
+        //   }
+        // }
 
       socket.emit("getState");
     });
