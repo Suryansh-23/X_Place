@@ -7,27 +7,24 @@ import { io } from "socket.io-client";
 import { Socket } from "socket.io";
 const PORT = parseInt(process.env.PORT || "3000", 10);
 const socket = io(`localhost:${PORT + 1}`, {
-    path: "/api/canvasSocket",
-    addTrailingSlash: false,
-  });
+  path: "/api/canvasSocket",
+  addTrailingSlash: false,
+});
 
-
-  socket.on("connect", () => {
-    console.log("Connected to socket server", socket);
-  });
-
+socket.on("connect", () => {
+  console.log("Connected to socket server", socket);
+});
 
 export default function Xnft() {
   const [userColor, setUserColor] = useState<string>("");
   const [backgroundColor, setBackgroundColor] = useState<string>("");
+  const [index, setIndex] = useState<number>(-1);
 
   const [cells, setCells] = useState<string[][]>(
     Array.from({ length: 10 }, () =>
       Array.from({ length: 10 }, () => "#ffffff"),
     ),
   );
-
-  
 
   const isValidHexColor = (inputColor: string): boolean =>
     /^#([0-9A-Fa-f]{3}){1,2}$/.test(inputColor);
@@ -45,14 +42,16 @@ export default function Xnft() {
 
   const handleSubmit = (): void => {
     setBackgroundColor(userColor);
-    socket.emit("colorChange" , {
-        rowIndex: 6,
-        colIndex: 6,
-        newColor: userColor,
-    })
-    
+    socket.emit("colorChange", {
+      rowIndex: index % 100,
+      colIndex: Math.floor(index / 10),
+      newColor: userColor,
+    });
 
+    setIndex(index + 1);
+    
   };
+  
 
   return (
     <main>

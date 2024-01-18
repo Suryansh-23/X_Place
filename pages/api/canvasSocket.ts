@@ -90,11 +90,19 @@ export default function SocketHandler(
                     io.emit("stateInfo", canvas);
                     console.log(
                         "color change received",
-                        canvas[colIndex][rowIndex]
+                        canvas[colIndex][rowIndex],
                     );
+                 
+                    
                 }
+
+                // io.to(socket.id).emit("Send user" , ()=>{
+                //     console.log("user Registered")
+                // })
             }
         );
+
+
 
         _socket.on("getState", () => {
             console.log("getState received");
