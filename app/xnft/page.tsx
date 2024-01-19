@@ -5,6 +5,26 @@ import { Input } from "@/components/ui/input";
 import { useEffect, useState } from "react";
 import { io } from "socket.io-client";
 import { Socket } from "socket.io";
+import { useRef } from "react";
+import { Badge } from "@/components/ui/badge";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { userData } from "@/userData";
+
+
+function selectRandomUser(): any | undefined {
+  if (userData.length === 0) {
+    return undefined; // Return undefined if the array is empty
+  }
+
+  const randomIndex = Math.floor(Math.random() * userData.length);
+  const randomUser = userData[randomIndex];
+
+  return randomUser;
+}
+
+
+const randomUser = selectRandomUser();
+
 const PORT = parseInt(process.env.PORT || "3000", 10);
 const socket = io(`localhost:${PORT + 1}`, {
   path: "/api/canvasSocket",
@@ -18,13 +38,19 @@ socket.on("connect", () => {
 export default function Xnft() {
   const [userColor, setUserColor] = useState<string>("");
   const [backgroundColor, setBackgroundColor] = useState<string>("");
-  const [index, setIndex] = useState<number>(-1);
+  // const [index, setIndex] = useState<number>(-1);
 
   const [cells, setCells] = useState<string[][]>(
     Array.from({ length: 10 }, () =>
       Array.from({ length: 10 }, () => "#ffffff"),
     ),
   );
+
+  const getMessage = () => {
+    window.addEventListener("message", (e) => {
+      console.log(e.data);
+    });
+  };
 
   const isValidHexColor = (inputColor: string): boolean =>
     /^#([0-9A-Fa-f]{3}){1,2}$/.test(inputColor);
@@ -43,19 +69,24 @@ export default function Xnft() {
   const handleSubmit = (): void => {
     setBackgroundColor(userColor);
     socket.emit("colorChange", {
-      rowIndex: index % 100,
-      colIndex: Math.floor(index / 10),
+      colIndex: Math.floor(randomUser.ndex / 100),
+      rowIndex: (randomUser.Index) % 100,
       newColor: userColor,
     });
-
-    setIndex(index + 1);
-    
+   ;
   };
-  
 
   return (
     <main>
-      <div className="flex h-screen w-screen flex-row items-center justify-center ">
+      <div className="flex flex-row space-x-12">
+        <Badge className="bg-[#87CEEB]">{`${randomUser.Index}`}</Badge>
+        <h1 className="text-center font-bold">Welcome {randomUser.Name} to Your personal Pixel</h1>
+        <Avatar>
+          <AvatarImage src="https://github.com/shadcn.png" />
+          <AvatarFallback>{randomUser.Name}</AvatarFallback>
+        </Avatar>
+      </div>
+      <div className="flex  items-center justify-center ">
         <div
           className={`relative col-span-1 mt-12 h-[350px] w-[350px] rounded-xl border border-gray-200 p-6 shadow-md md:col-span-2`}
           style={{ backgroundColor }}
