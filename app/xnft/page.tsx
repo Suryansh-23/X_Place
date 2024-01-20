@@ -23,6 +23,7 @@ function selectRandomUser(): any | undefined {
 }
 
 
+
 const randomUser = selectRandomUser();
 
 const PORT = parseInt(process.env.PORT || "3000", 10);
@@ -69,17 +70,19 @@ export default function Xnft() {
   const handleSubmit = (): void => {
     setBackgroundColor(userColor);
     socket.emit("colorChange", {
-      colIndex: Math.floor(randomUser.ndex / 100),
+      colIndex: Math.floor(randomUser.Index / 100),
       rowIndex: (randomUser.Index) % 100,
       newColor: userColor,
     });
+
+    socket.emit("getUserDetails")
    ;
   };
 
   return (
     <main>
       <div className="flex flex-row space-x-12">
-        <Badge className="bg-[#87CEEB]">{`${randomUser.Index}`}</Badge>
+       
         <h1 className="text-center font-bold">Welcome {randomUser.Name} to Your personal Pixel</h1>
         <Avatar>
           <AvatarImage src="https://github.com/shadcn.png" />
@@ -88,7 +91,7 @@ export default function Xnft() {
       </div>
       <div className="flex  items-center justify-center ">
         <div
-          className={`relative col-span-1 mt-12 h-[350px] w-[350px] rounded-xl border border-gray-200 p-6 shadow-md md:col-span-2`}
+          className={`relative col-span-1 mt-12 h-[300px] w-[300px] rounded-xl border border-gray-200 p-6 shadow-md md:col-span-2`}
           style={{ backgroundColor }}
         ></div>
         <div className="absolute bottom-0 flex w-full items-center justify-center space-x-2 p-6 ">
@@ -100,7 +103,7 @@ export default function Xnft() {
           />
           <Button
             onClick={handleSubmit}
-            className="rounded-full bg-black px-4 py-2 text-white hover:bg-gradient-to-r hover:from-red-500 hover:via-yellow-500 hover:to-purple-500 focus:outline-none focus:ring-2 focus:ring-blue-600 dark:bg-gray-700 dark:text-white"
+            className="rounded-full bg-black px-4 py-2 text-white hover:text-white hover:bg-black focus:outline-none focus:ring-2 focus:ring-blue-600 dark:bg-gray-700 dark:text-white"
           >
             Submit
           </Button>
@@ -109,3 +112,5 @@ export default function Xnft() {
     </main>
   );
 }
+
+
