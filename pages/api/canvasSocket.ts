@@ -104,7 +104,13 @@ export default function SocketHandler(
         socket.on("disconnect", async () => {
             console.log("socket disconnect");
         });
+
+        _socket.on("getUserDetails" , async() =>  {
+            console.log("getUserDetails received");
+            io.to(socket.id).emit("userDetails", socket.id);
+        })
     });
+
 
     res.socket.server.io = io;
     res.status(201).json({
