@@ -27,7 +27,7 @@ function selectRandomUser(): any | undefined {
 const randomUser = selectRandomUser();
 
 const PORT = parseInt(process.env.PORT || "3000", 10);
-const socket = io(`localhost:${PORT + 1}`, {
+const socket = io(`https://x-place-iota.vercel.app/:${PORT + 1}`, {
   path: "/api/canvasSocket",
   addTrailingSlash: false,
 });

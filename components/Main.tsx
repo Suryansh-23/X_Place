@@ -12,7 +12,7 @@ const Home = () => {
   );
 
   useEffect(() => {
-    const socket = io(`localhost:${PORT + 1}`, {
+    const socket = io(`https://x-place-iota.vercel.app/:${PORT + 1}`, {
       path: "/api/canvasSocket",
       addTrailingSlash: false,
     });
@@ -20,16 +20,16 @@ const Home = () => {
     socket.on("connect", () => {
       console.log("Connected to socket server", socket);
 
-        // for (let i = 0; i < 10; i++) {
-        //   for (let j = 0; j < 10; j++) {
-        //     console.log("i", i, "j", j);
-        //     socket.emit("colorChange", {
-        //       rowIndex: i,
-        //       colIndex: j,
-        //       newColor: "#ff0000",
-        //     });
-        //   }
-        // }
+      // for (let i = 0; i < 10; i++) {
+      //   for (let j = 0; j < 10; j++) {
+      //     console.log("i", i, "j", j);
+      //     socket.emit("colorChange", {
+      //       rowIndex: i,
+      //       colIndex: j,
+      //       newColor: "#ff0000",
+      //     });
+      //   }
+      // }
 
       socket.emit("getState");
     });
@@ -50,11 +50,11 @@ const Home = () => {
 
   return (
     <section id="canvas" className="mt-60 flex flex-col items-center">
-      <h1 className="text-3xl font-bold tracking-tighter sm:text-5xl xl:text-6xl/none text-slate-800">
+      <h1 className="text-3xl font-bold tracking-tighter text-slate-800 sm:text-5xl xl:text-6xl/none">
         The Canvas
       </h1>
       <p
-        className="mt-6 animate-fade-up text-center text-gray-500 [text-wrap:balance] md:text-xl w-[40rem]"
+        className="animate-fade-up mt-6 w-[40rem] text-center text-gray-500 [text-wrap:balance] md:text-xl"
         style={{
           animationDelay: "0.25s",
           animationFillMode: "forwards",
@@ -64,10 +64,10 @@ const Home = () => {
         anyone who owns it. You can own a pixel by purchasing it from the
         marketplace.
       </p>
-      <div className="relative col-span-1 rounded-xl border border-gray-200 bg-white shadow-md md:col-span-2 p-6 mt-12">
+      <div className="relative col-span-1 mt-12 rounded-xl border border-gray-200 bg-white p-6 shadow-md md:col-span-2">
         <div className="mx-auto max-w-md text-center"></div>
         <div className="flex items-center justify-center">
-          <div className="rounded-[1rem] overflow-hidden border-4 border-gray-200">
+          <div className="overflow-hidden rounded-[1rem] border-4 border-gray-200">
             {cells.map((row, rowIndex) => (
               <div key={rowIndex} style={{ display: "flex" }}>
                 {row.map((color, colIndex) => (
