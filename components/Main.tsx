@@ -12,7 +12,7 @@ const Home = () => {
   );
 
   useEffect(() => {
-    const socket = io(`https://x-place-iota.vercel.app/:${PORT + 1}`, {
+    const socket = io(`https://x-place-iota.vercel.app`, {
       path: "/api/canvasSocket",
       addTrailingSlash: false,
     });

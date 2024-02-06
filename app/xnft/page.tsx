@@ -10,7 +10,6 @@ import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { userData } from "@/userData";
 
-
 function selectRandomUser(): any | undefined {
   if (userData.length === 0) {
     return undefined; // Return undefined if the array is empty
@@ -22,12 +21,10 @@ function selectRandomUser(): any | undefined {
   return randomUser;
 }
 
-
-
 const randomUser = selectRandomUser();
 
 const PORT = parseInt(process.env.PORT || "3000", 10);
-const socket = io(`https://x-place-iota.vercel.app/:${PORT + 1}`, {
+const socket = io(`https://x-place-iota.vercel.app`, {
   path: "/api/canvasSocket",
   addTrailingSlash: false,
 });
@@ -71,19 +68,19 @@ export default function Xnft() {
     setBackgroundColor(userColor);
     socket.emit("colorChange", {
       colIndex: Math.floor(randomUser.Index / 100),
-      rowIndex: (randomUser.Index) % 100,
+      rowIndex: randomUser.Index % 100,
       newColor: userColor,
     });
 
-    socket.emit("getUserDetails")
-   ;
+    socket.emit("getUserDetails");
   };
 
   return (
     <main>
       <div className="flex flex-row space-x-12">
-       
-        <h1 className="text-center font-bold">Welcome {randomUser.Name} to Your personal Pixel</h1>
+        <h1 className="text-center font-bold">
+          Welcome {randomUser.Name} to Your personal Pixel
+        </h1>
         <Avatar>
           <AvatarImage src="https://github.com/shadcn.png" />
           <AvatarFallback>{randomUser.Name}</AvatarFallback>
@@ -103,7 +100,7 @@ export default function Xnft() {
           />
           <Button
             onClick={handleSubmit}
-            className="rounded-full bg-black px-4 py-2 text-white hover:text-white hover:bg-black focus:outline-none focus:ring-2 focus:ring-blue-600 dark:bg-gray-700 dark:text-white"
+            className="rounded-full bg-black px-4 py-2 text-white hover:bg-black hover:text-white focus:outline-none focus:ring-2 focus:ring-blue-600 dark:bg-gray-700 dark:text-white"
           >
             Submit
           </Button>
@@ -112,5 +109,3 @@ export default function Xnft() {
     </main>
   );
 }
-
-
